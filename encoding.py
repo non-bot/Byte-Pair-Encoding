@@ -119,10 +119,36 @@ def compare_encode_speed(tokenizer, test_text):
     return {"S": S, "N": N, "F": round(F, 4), "t_raw": round(t_raw, 4), "t_cached": round(t_cached, 4), "speedup": round(speedup, 2)}
 
 
+def load_test_text(file_path, skip_mb=75):
+    """Bỏ qua phần train (skip_mb) theo ranh giới dòng bằng seek O(1), đọc phần còn lại."""
+    skip_bytes = int(skip_mb * 1024 * 1024)
+    with open(file_path, "rb") as f:
+        if skip_bytes > 0:
+            f.seek(skip_bytes - 1)
+            f.readline()  # Đọc nốt dòng đang dở tới hết '\n'
+        remaining = f.read()
+    return remaining.decode("utf-8"), round(len(remaining) / (1024 * 1024), 2)
+
+
 if __name__ == "__main__":
-    tok = BPETokenizer.from_json(os.path.join("model", "bpe_level_3.json"))
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    MODEL_PATH = os.path.join(BASE_DIR, "model", "bpe_level_3.json")
+    CORPUS_PATH = os.path.join(BASE_DIR, "data", "vi_wiki_80mb.txt")
+
+    tok = BPETokenizer.from_json(MODEL_PATH)
     sample = "Sinh viên Nha Trang nghiên cứu thuật toán BPE cho tiếng Việt."
     tokens = tok.encode(sample, use_cache=True, keep_whitespace=True)
     print("Tokens:", tokens)
     print("Decode:", tok.decode(tokens, has_whitespace=True))
-    compare_encode_speed(tok, (sample + " ") * 5000)
+
+    if os.path.exists(CORPUS_PATH):
+        test_text, test_mb = load_test_text(CORPUS_PATH, skip_mb=75)
+        if test_text.strip():
+            print(f"\nĐã nạp phần kiểm thử còn lại: {test_mb} MB từ '{CORPUS_PATH}'")
+            compare_encode_speed(tok, test_text)
+        else:
+            print(f"\n[CẢNH BÁO] Tệp '{CORPUS_PATH}' chưa vượt quá 75 MB, chạy thử trên dữ liệu mẫu lặp.")
+            compare_encode_speed(tok, (sample + " ") * 5000)
+    else:
+        print(f"\n[CẢNH BÁO] Không tìm thấy '{CORPUS_PATH}', chạy thử trên dữ liệu mẫu lặp.")
+        compare_encode_speed(tok, (sample + " ") * 5000)
