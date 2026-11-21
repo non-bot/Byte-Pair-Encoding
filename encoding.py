@@ -120,7 +120,7 @@ def compare_encode_speed(tokenizer, test_text):
 
 
 def load_test_text(file_path, skip_mb=75):
-    """Bỏ qua phần train (skip_mb) theo ranh giới dòng bằng seek O(1), đọc phần còn lại."""
+    """Bỏ qua phần train (skip_mb) theo ranh giới dòng bằng seek, đọc phần còn lại."""
     skip_bytes = int(skip_mb * 1024 * 1024)
     with open(file_path, "rb") as f:
         if skip_bytes > 0:
@@ -131,24 +131,20 @@ def load_test_text(file_path, skip_mb=75):
 
 
 if __name__ == "__main__":
+    skip_mb = 75
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
     MODEL_PATH = os.path.join(BASE_DIR, "model", "bpe_level_3.json")
     CORPUS_PATH = os.path.join(BASE_DIR, "data", "vi_wiki_80mb.txt")
 
-    tok = BPETokenizer.from_json(MODEL_PATH)
-    sample = "Sinh viên Nha Trang nghiên cứu thuật toán BPE cho tiếng Việt."
-    tokens = tok.encode(sample, use_cache=True, keep_whitespace=True)
-    print("Tokens:", tokens)
-    print("Decode:", tok.decode(tokens, has_whitespace=True))
-
-    if os.path.exists(CORPUS_PATH):
-        test_text, test_mb = load_test_text(CORPUS_PATH, skip_mb=75)
+    if not os.path.exists(MODEL_PATH):
+        print(f"[LỖI] Không tìm thấy mô hình '{MODEL_PATH}'. Hãy chạy BPE_AIO.py (mức 3) trước.")
+    elif not os.path.exists(CORPUS_PATH):
+        print(f"[LỖI] Không tìm thấy '{CORPUS_PATH}'.")
+    else:
+        tok = BPETokenizer.from_json(MODEL_PATH)
+        test_text, test_mb = load_test_text(CORPUS_PATH, skip_mb)
         if test_text.strip():
-            print(f"\nĐã nạp phần kiểm thử còn lại: {test_mb} MB từ '{CORPUS_PATH}'")
+            print(f"Đã nạp phần kiểm thử còn lại: {test_mb} MB từ '{CORPUS_PATH}'")
             compare_encode_speed(tok, test_text)
         else:
-            print(f"\n[CẢNH BÁO] Tệp '{CORPUS_PATH}' chưa vượt quá 75 MB, chạy thử trên dữ liệu mẫu lặp.")
-            compare_encode_speed(tok, (sample + " ") * 5000)
-    else:
-        print(f"\n[CẢNH BÁO] Không tìm thấy '{CORPUS_PATH}', chạy thử trên dữ liệu mẫu lặp.")
-        compare_encode_speed(tok, (sample + " ") * 5000)
+            print(f"[CẢNH BÁO] Tệp '{CORPUS_PATH}' chưa vượt quá {skip_mb} MB, không có phần kiểm thử.")
