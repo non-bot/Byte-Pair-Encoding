@@ -21,9 +21,10 @@ def _build_vn_chars():
     for v in vowels:
         for t in tones:
             s.add(unicodedata.normalize("NFC", v + t))
-    return s | {c.upper() for c in s} | set("_.,!?;:-–—()[]\"'/%+=*")
+    return s | {c.upper() for c in s}
 
 VN_CHARS = _build_vn_chars()
+EXTRA_TOKENS = "0123456789_.,!?;:-–—()[]\"'/%+=*"
 
 class _Node:
     __slots__ = ("val", "freq", "prev", "next", "alive")
@@ -32,7 +33,6 @@ class _Node:
         self.val, self.freq = val, freq
         self.prev = self.next = None
         self.alive = True
-
 
 def write_log(msg, log_file=None):
     print(msg)
@@ -196,12 +196,14 @@ def _train_dll(word_counts, num_merges, min_pair_freq, eow, vocab, log_interval,
 
     return merges, round(time.perf_counter() - t0, 3)
 
-def train_bpe(word_counts, num_merges, level="2", min_pair_freq=2, eow="</w>", log_interval=500, log_file=None):
+def train_bpe(word_counts, num_merges, level="2", min_pair_freq=2, eow="</w>", log_interval=500, log_file=None, extra_tokens=None):
     """Hàm BPE duy nhất điều phối 4 mức tăng tốc: '0', '1', '2', '3'."""
     if level not in LEVELS:
         raise ValueError(f"Mức không hợp lệ: '{level}'. Chỉ chọn: {list(LEVELS)}")
 
     base = {ch for w, f in word_counts.items() if w and f > 0 for ch in list(w) + [eow]}
+    if extra_tokens:
+        base.update(extra_tokens)
     vocab = {"<unk>": 0}
     for tok in sorted(base):
         vocab.setdefault(tok, len(vocab))
@@ -338,7 +340,8 @@ def choose_levels():
         print("[LỖI] Chỉ được nhập các mức: 0, 1, 2, 3.")
 
 def main(levels=None):
-    CORPUS_PATH = "data/vi_wiki_80mb.txt"
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    CORPUS_PATH = os.path.join(BASE_DIR, "data", "vi_wiki_80mb.txt")
     TRAIN_MB = 75          # Chỉ đọc 75 MB đầu để huấn luyện (5 MB cuối dành cho encoding_2.py)
     NUM_MERGES = 8000
     MIN_WORD_FREQ = 5
@@ -373,6 +376,7 @@ def main(levels=None):
             min_pair_freq=MIN_PAIR_FREQ,
             log_interval=LOG_INTERVAL,
             log_file=log_file,
+            extra_tokens=EXTRA_TOKENS,
         )
         size_kb = save_model(f"model/bpe_level_{lv}.json", res, preprocess_time=read_t)
         total_t = round(read_t + res["time"], 3)
@@ -386,7 +390,7 @@ def main(levels=None):
     if len(results) >= 2:
         for r in results[1:]:
             assert r["merges"] == results[0]["merges"] and r["vocab"] == results[0]["vocab"]
-        write_log("[VERIFY PASS] Các m ức đã chọn cho ra vocab & merges khớp nhau 100%.", "logs/summary.log")
+        write_log("[VERIFY PASS] Các mức đã chọn cho ra vocab & merges khớp nhau 100%.", "logs/summary.log")
 
 if __name__ == "__main__":
     main()
