@@ -1,0 +1,21 @@
+=== MỤC 1: KHẢO SÁT SỐ BƯỚC GỘP K ===
+  K=500 | |V|=685 | Train=0.202s | N=2071870 | F=1.8977 | <unk>=0.2457%
+  K=1000 | |V|=1185 | Train=0.398s | N=1783838 | F=1.6338 | <unk>=0.2854%
+  K=2000 | |V|=2185 | Train=0.314s | N=1587767 | F=1.4543 | <unk>=0.3206%
+  K=4000 | |V|=4185 | Train=0.44s | N=1468138 | F=1.3447 | <unk>=0.3468%
+  K=8000 | |V|=8185 | Train=0.476s | N=1404769 | F=1.2866 | <unk>=0.3624%
+
+=== MỤC 2: SO SÁNH LỌC TIẾNG ANH, ĐỐI CHIẾU F = 1 & TỶ LỆ <unk> ===
+  U' trước lọc = 29,376 | U' sau lọc tiếng Anh = 13,709
+  BPE K=8000 (con tu tieng Anh): |V|=8,185 | S=1,091,805 | N=1,404,769 | F=1.2866 | <unk>/token=0.3624% | <unk>/từ=0.2726% | <unk>/từ chữ cái=0.1574%
+  BPE K=8000 (da loc tieng Anh): |V|=8,177 | S=1,091,805 | N=1,474,838 | F=1.3508 | <unk>/token=1.2182% | <unk>/từ=1.3332% | <unk>/từ chữ cái=1.3960%
+  Tach nguyen am tiet (F=1, goc): |V|=29,408 | S=1,091,805 | N=1,091,805 | F=1.0000 | <unk>/token=4.0853% | <unk>/từ=4.0853% | <unk>/từ chữ cái=2.1856%
+  Tach nguyen am tiet (F=1, loc): |V|=13,741 | S=1,091,805 | N=1,091,805 | F=1.0000 | <unk>/token=7.0552% | <unk>/từ=7.0552% | <unk>/từ chữ cái=5.6721%
+  (<unk>/token: BPE chia cho N, tách âm tiết chia cho S; <unk>/từ và <unk>/từ chữ cái cùng chia cho số từ nên so sánh trực tiếp được.)
+
+=== MỤC 3: TRUNG VỊ 3 LẦN ĐO THỜI GIAN HUẤN LUYỆN (K = 8,000) ===
+  Mức 0 (Co ban (khong tang toc)): [202.417s, 207.752s, 205.426s] -> Trung vị = 205.426s
+  Mức 1 (Inverted Index): [7.573s, 7.469s, 7.67s] -> Trung vị = 7.573s
+  Mức 2 (Inverted Index + Max-Heap): [0.74s, 0.73s, 0.759s] -> Trung vị = 0.74s
+  Mức 3 (Inverted Index + Max-Heap + Doubly Linked List): [0.369s, 0.548s, 0.476s] -> Trung vị = 0.476s
+  -> CACHE MEDIAN: NoCache=[10.5619, 10.3128, 10.4025] (10.4025s) | LRUCache=[5.081, 5.0395, 5.1664] (5.0810s) | Speedup=2.05x | Hit=97.4%

@@ -1,0 +1,15 @@
+-> XONG Mức 0: K=500, Vocab=685, Tiền xử lý=6.092s, Train=13.811s, Tổng=19.903s, File=34.7 KB
+-> XONG Mức 0: K=500, Vocab=685, Tiền xử lý=6.092s, Train=14.93s, Tổng=21.022s, File=34.7 KB
+-> XONG Mức 0: K=500, Vocab=685, Tiền xử lý=6.092s, Train=15.406s, Tổng=21.498s, File=34.7 KB
+-> XONG Mức 0: K=1000, Vocab=1185, Tiền xử lý=6.092s, Train=30.022s, Tổng=36.114s, File=67.2 KB
+-> XONG Mức 0: K=1000, Vocab=1185, Tiền xử lý=6.092s, Train=28.863s, Tổng=34.955s, File=67.2 KB
+-> XONG Mức 0: K=1000, Vocab=1185, Tiền xử lý=6.092s, Train=29.569s, Tổng=35.661s, File=67.2 KB
+-> XONG Mức 0: K=2000, Vocab=2185, Tiền xử lý=6.092s, Train=56.315s, Tổng=62.407s, File=132.1 KB
+-> XONG Mức 0: K=2000, Vocab=2185, Tiền xử lý=6.092s, Train=55.226s, Tổng=61.318s, File=132.1 KB
+-> XONG Mức 0: K=2000, Vocab=2185, Tiền xử lý=6.092s, Train=53.401s, Tổng=59.493s, File=132.1 KB
+-> XONG Mức 0: K=4000, Vocab=4185, Tiền xử lý=6.092s, Train=107.491s, Tổng=113.583s, File=260.8 KB
+-> XONG Mức 0: K=4000, Vocab=4185, Tiền xử lý=6.092s, Train=110.173s, Tổng=116.265s, File=260.8 KB
+-> XONG Mức 0: K=4000, Vocab=4185, Tiền xử lý=6.092s, Train=115.318s, Tổng=121.41s, File=260.8 KB
+-> XONG Mức 0: K=8000, Vocab=8185, Tiền xử lý=6.092s, Train=202.417s, Tổng=208.509s, File=519.0 KB
+-> XONG Mức 0: K=8000, Vocab=8185, Tiền xử lý=6.092s, Train=207.752s, Tổng=213.844s, File=519.0 KB
+-> XONG Mức 0: K=8000, Vocab=8185, Tiền xử lý=6.092s, Train=205.426s, Tổng=211.518s, File=519.0 KB

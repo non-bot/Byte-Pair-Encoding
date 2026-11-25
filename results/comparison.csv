@@ -1,0 +1,5 @@
+﻿Phuong_phap,Vocab_size,Test_S,Test_N,F,UNK_rate_pct,UNK_tu_pct,UNK_tu_chu_cai_pct
+BPE K=8000 (con tu tieng Anh),8185,1091805,1404769,1.2866,0.3624,0.2726,0.1574
+BPE K=8000 (da loc tieng Anh),8177,1091805,1474838,1.3508,1.2182,1.3332,1.396
+"Tach nguyen am tiet (F=1, goc)",29408,1091805,1091805,1.0,4.0853,4.0853,2.1856
+"Tach nguyen am tiet (F=1, loc)",13741,1091805,1091805,1.0,7.0552,7.0552,5.6721

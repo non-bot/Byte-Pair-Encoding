@@ -1,0 +1,5 @@
+﻿Muc,Thuat_toan,Lan_1_s,Lan_2_s,Lan_3_s,Trung_vi_s
+0,Co ban (khong tang toc),202.417,207.752,205.426,205.426
+1,Inverted Index,7.573,7.469,7.67,7.573
+2,Inverted Index + Max-Heap,0.74,0.73,0.759,0.74
+3,Inverted Index + Max-Heap + Doubly Linked List,0.369,0.548,0.476,0.476

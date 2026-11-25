@@ -1,24 +1,22 @@
-# Python cache & môi trường ảo
+# Python cache & môi trường
 __pycache__/
 *.py[cod]
 *$py.class
 .venv/
 venv/
+env/
 
-# Dữ liệu ngữ liệu (dung lượng lớn ~80 MB)
-data/vi_wiki_80mb.txt
-vi_wiki_80mb.txt
-
-# Thư mục lưu mô hình và tệp JSON sinh ra sau huấn luyện
-model/
-bpe_level_*.json
-
-# Thư mục lưu log chạy thực nghiệm
-logs/
-*.log
-
-# Tệp hệ thống & IDE
-.DS_Store
-Thumbs.db
+# Cấu hình trình soạn thảo & hệ điều hành
 .vscode/
 .idea/
+.DS_Store
+Thumbs.db
+
+# Dữ liệu ngữ liệu lớn (giữ lại data/Data.py)
+data/*.txt
+data/*.bin
+data/*.jsonl
+
+# Tệp mô hình sinh ra khi chạy thực nghiệm
+model/*.json
+
